@@ -8,7 +8,7 @@ class Navbar extends Component {
         let {title} = this.props;
         return (
             <div>
-                <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
+                <nav className="navbar fixed-top navbar-expand-lg navbar-dark bg-dark">
                     <div className="container-fluid">
                         <Link className="navbar-brand" to="/">{title}</Link>
                         <button className="navbar-toggler" type="button" data-bs-toggle="collapse"
