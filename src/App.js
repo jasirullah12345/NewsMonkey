@@ -4,34 +4,36 @@ import {BrowserRouter as Router, Route, Switch} from "react-router-dom";
 import Newslist from "./Components/Newslist";
 
 function App() {
+    const pageSize =5;
+    const apiKey = process.env.REACT_APP_API_KEY;
     return (
         <>
             <Router>
                 <Navbar title="NewsMonkey"/>
                 <Switch>
                     <Route exact path="/">
-                        <Newslist key="" pageSize={5} category="general" country="in"/>
+                        <Newslist apiKey={apiKey}  key="default" pageSize={pageSize} category="general" country="in"/>
                     </Route>
                     <Route exact path="/business">
-                        <Newslist key="business" pageSize={5} category="business" country="in"/>
+                        <Newslist apiKey={apiKey}  key="business" pageSize={pageSize} category="business" country="in"/>
                     </Route>
                     <Route exact path="/entertainment">
-                        <Newslist key="entertainment" pageSize={5} category="entertainment" country="in"/>
+                        <Newslist apiKey={apiKey}  key="entertainment" pageSize={pageSize} category="entertainment" country="in"/>
                     </Route>
                     <Route exact path="/general">
-                        <Newslist key="general" pageSize={5} category="general" country="in"/>
+                        <Newslist apiKey={apiKey}  key="general" pageSize={pageSize} category="general" country="in"/>
                     </Route>
                     <Route exact path="/health">
-                        <Newslist key="health" pageSize={5} category="health" country="in"/>
+                        <Newslist apiKey={apiKey}  key="health" pageSize={pageSize} category="health" country="in"/>
                     </Route>
                     <Route exact path="/science">
-                        <Newslist key="science" pageSize={5} category="science" country="in"/>
+                        <Newslist apiKey={apiKey}  key="science" pageSize={pageSize} category="science" country="in"/>
                     </Route>
                     <Route exact path="/sports">
-                        <Newslist key="sports" pageSize={5} category="sports" country="in"/>
+                        <Newslist apiKey={apiKey}  key="sports" pageSize={pageSize} category="sports" country="in"/>
                     </Route>
                     <Route exact path="/technology">
-                        <Newslist key="technology" pageSize={5} category="technology" country="in"/>
+                        <Newslist apiKey={apiKey}  key="technology" pageSize={pageSize} category="technology" country="in"/>
                     </Route>
                 </Switch>
             </Router>
