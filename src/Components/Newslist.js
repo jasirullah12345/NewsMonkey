@@ -20,14 +20,13 @@ class Newslist extends Component {
         super(props);
         this.state = {
             articles: [],
-            loading: false,
+            loading: true,
             page: 1
         };
     }
 
-    async fetchArticle() {
+    async fetchNews() {
         const url = `https://newsapi.org/v2/top-headlines?country=${this.props.country}&apiKey=${this.props.apiKey}&page=${this.state.page}&pageSize=${this.props.pageSize}&category=${this.props.category}`
-        this.setState({loading: true});
         this.props.setProgress(10);
         let data = await fetch(url);
         this.props.setProgress(50);
@@ -42,48 +41,34 @@ class Newslist extends Component {
     }
 
     componentDidMount() {
-        this.fetchArticle();
+        this.fetchNews();
     }
 
-    prevClick = () => {
-        this.setState({page: this.state.page - 1});
-        this.fetchArticle();
-    }
-    nextClick = () => {
-        if (this.state.page + 1 <= Math.ceil(this.state.totalArticles / this.props.pageSize)) {
-            this.setState({page: this.state.page + 1});
-            this.fetchArticle();
-        }
+    fetchMoreNews = () => {
+        this.setState({page: this.state.page + 1});
+        this.fetchNews();
     }
 
     render() {
         return (
             <div>
-                <div className="container">
+                <div className="container mb-5">
                     <h2 className="mb-2 text-center" style={{marginTop: "90px"}}>Today's News</h2>
-                    <div className="row m-0 p-0 gy-5 justify-content-center">
-                        {this.state.loading && <Loading/>}
-                        <InfiniteScroll
-                            dataLength={this.state.articles.length}
-                            next={this.nextClick}
-                            hasMore={this.state.articles.length !== this.state.totalArticles}
-                            loader={<Loading/>}
-                        >
+                    {this.state.loading && <Loading/>}
+                    {!this.state.loading && <InfiniteScroll
+                        dataLength={this.state.articles.length}
+                        next={this.fetchMoreNews}
+                        hasMore={this.state.articles.length !== this.state.totalArticles}
+                        loader={<Loading/>}
+                    >
+                        <div className="row m-0 p-0 gy-5 justify-content-center">
                             {this.state.articles.map((item) => {
                                 return <Newsitem key={item.url} title={item.title} desc={item.description}
                                                  imgUrl={item.urlToImage} url={item.url} author={item.author}
                                                  date={item.publishedAt} source={item.source}/>;
                             })}
-                        </InfiniteScroll>
-                    </div>
-                    <div className="d-flex justify-content-between my-3 px-4">
-                        <button className="btn btn-dark" disabled={this.state.page <= 1}
-                                onClick={this.prevClick}>&larr;  Previous
-                        </button>
-                        <button className="btn btn-dark"
-                                disabled={this.state.page + 1 > Math.ceil(this.state.totalArticles / this.props.pageSize)}
-                                onClick={this.nextClick}>Next  &rarr;</button>
-                    </div>
+                        </div>
+                    </InfiniteScroll>}
                 </div>
             </div>
         );
